@@ -1,7 +1,15 @@
 /*
 Name: Akshath Jain
 Date: 3/15/19
-Purpose: example app for the grouped buttons package
+Purpose: define the RadioButtonGroup object
+Copyright: © 2019, Akshath Jain. All rights reserved.
+Licensing: More information can be found here: https://github.com/akshathjain/grouped_buttons/blob/master/LICENSE
+*/
+
+/*
+Edited by Abdurrahman Anas to add a GRID orientation
+Linkedin: https://www.linkedin.com/in/abdurrahman-anas-mohammad/
+Date: 27/11/19
 */
 
 import 'package:flutter/material.dart';
@@ -29,12 +37,11 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   List<String> _checked = ["A", "B"];
   String _picked = "Two";
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Grouped Buttons Example"),
@@ -44,145 +51,195 @@ class _HomePageState extends State<HomePage> {
     //
   }
 
-  Widget _body(){
-    return ListView(
-      children: <Widget>[
+  Widget _body() {
+    return ListView(children: <Widget>[
+      //--------------------
+      //SIMPLE USAGE EXAMPLE
+      //--------------------
 
-        //--------------------
-        //SIMPLE USAGE EXAMPLE
-        //--------------------
-
-        //BASIC CHECKBOXGROUP
-        Container(
-          padding: const EdgeInsets.only(left: 14.0, top: 14.0),
-          child: Text("Basic CheckboxGroup",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0
-            ),
-          ),
+      //VERTICAL CHECKBOXGROUP
+      Container(
+        padding: const EdgeInsets.only(left: 14.0, top: 14.0),
+        child: Text(
+          "Vertical CheckboxGroup",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
+      ),
 
-        CheckboxGroup(
-          labels: <String>[
-            "Sunday",
-            "Monday",
-            "Tuesday",
-            "Wednesday",
-            "Thursday",
-            "Friday",
-            "Saturday",
-          ],
-          disabled: [
-            "Wednesday",
-            "Friday"
-          ],
-          onChange: (bool isChecked, String label, int index) => print("isChecked: $isChecked   label: $label  index: $index"),
-          onSelected: (List<String> checked) => print("checked: ${checked.toString()}"),
+      CheckboxGroup(
+        orientation: GroupedButtonsOrientation.VERTICAL,
+        labels: <String>[
+          "Sunday",
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+        ],
+        disabled: ["Wednesday", "Friday"],
+        onChange: (bool isChecked, String label, int index) =>
+            print("isChecked: $isChecked   label: $label  index: $index"),
+        onSelected: (List<String> checked) =>
+            print("checked: ${checked.toString()}"),
+      ),
+
+      //HORIZONTAL RADIOBUTTONGROUP
+      Container(
+        padding: const EdgeInsets.only(left: 14.0, top: 14.0),
+        child: Text(
+          "Horizontal RadioButtonGroup",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
+      ),
 
+      RadioButtonGroup(
+        orientation: GroupedButtonsOrientation.HORIZONTAL,
+        labels: [
+          "Option 1",
+          "Option 2",
+        ],
+        disabled: ["Option 1"],
+        onChange: (String label, int index) =>
+            print("label: $label index: $index"),
+        onSelected: (String label) => print(label),
+      ),
 
-
-        //BASIC RADIOBUTTONGROUP
-        Container(
-          padding: const EdgeInsets.only(left: 14.0, top: 14.0),
-          child: Text("Basic RadioButtonGroup",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0
-            ),
-          ),
+      //BASIC CHECKBOXGROUP with GRID VIEW
+      Container(
+        padding: const EdgeInsets.only(left: 14.0, top: 14.0),
+        child: Text(
+          "Grid CheckboxGroup",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
+      ),
 
-        RadioButtonGroup(
-          labels: [
-            "Option 1",
-            "Option 2",
-          ],
-          disabled: [
-            "Option 1"
-          ],
-          onChange: (String label, int index) => print("label: $label index: $index"),
-          onSelected: (String label) => print(label),
+      CheckboxGroup(
+        orientation: GroupedButtonsOrientation.GRID,
+        labels: <String>[
+          "Football",
+          "Basketball",
+          "Swimming",
+          "Karate",
+          "Jumping",
+        ],
+        disabled: ["Wednesday", "Friday"],
+        onChange: (bool isChecked, String label, int index) =>
+            print("isChecked: $isChecked   label: $label  index: $index"),
+        onSelected: (List<String> checked) =>
+            print("checked: ${checked.toString()}"),
+      ),
+
+      //--------------------
+      //CUSTOM USAGE EXAMPLE
+      //--------------------
+
+      ///CUSTOM CHECKBOX GROUP
+      Container(
+        padding: const EdgeInsets.only(left: 14.0, top: 14.0, bottom: 14.0),
+        child: Text(
+          "Custom Horizontal CheckboxGroup",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
+      ),
 
+      CheckboxGroup(
+        orientation: GroupedButtonsOrientation.HORIZONTAL,
+        margin: const EdgeInsets.only(left: 12.0),
+        onSelected: (List selected) => setState(() {
+          _checked = selected;
+        }),
+        labels: <String>[
+          "A",
+          "B",
+        ],
+        checked: _checked,
+        itemBuilder: (Checkbox cb, Text txt, int i) {
+          return Column(
+            children: <Widget>[
+              Icon(Icons.polymer),
+              cb,
+              txt,
+            ],
+          );
+        },
+      ),
 
-
-
-        //--------------------
-        //CUSTOM USAGE EXAMPLE
-        //--------------------
-
-        ///CUSTOM CHECKBOX GROUP
-        Container(
-          padding: const EdgeInsets.only(left: 14.0, top: 14.0, bottom: 14.0),
-          child: Text("Custom CheckboxGroup",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0
-            ),
-          ),
+      ///CUSTOM RADIOBUTTON GROUP
+      Container(
+        padding: const EdgeInsets.only(left: 14.0, top: 14.0, bottom: 14.0),
+        child: Text(
+          "Custom Vertival RadioButtonGroup",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
+      ),
 
-        CheckboxGroup(
-          orientation: GroupedButtonsOrientation.HORIZONTAL,
-          margin: const EdgeInsets.only(left: 12.0),
-          onSelected: (List selected) => setState((){
-            _checked = selected;
-          }),
-          labels: <String>[
-            "A",
-            "B",
-          ],
-          checked: _checked,
-          itemBuilder: (Checkbox cb, Text txt, int i){
-            return Column(
-              children: <Widget>[
-                Icon(Icons.polymer),
-                cb,
-                txt,
-              ],
-            );
-          },
+      RadioButtonGroup(
+        orientation: GroupedButtonsOrientation.VERTICAL,
+        margin: const EdgeInsets.only(left: 12.0),
+        onSelected: (String selected) => setState(() {
+          _picked = selected;
+        }),
+        labels: <String>[
+          "One",
+          "Two",
+        ],
+        picked: _picked,
+        itemBuilder: (Radio rb, Text txt, int i) {
+          return Column(
+            children: <Widget>[
+              Icon(Icons.public),
+              rb,
+              txt,
+            ],
+          );
+        },
+      ),
+
+      ///CUSTOM GRID RADIOBUTTON GROUP
+      Container(
+        padding: const EdgeInsets.only(left: 14.0, top: 14.0, bottom: 14.0),
+        child: Text(
+          "Custom Grid RadioButtonGroup",
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
         ),
+      ),
 
-
-
-        ///CUSTOM RADIOBUTTON GROUP
-        Container(
-          padding: const EdgeInsets.only(left: 14.0, top: 14.0, bottom: 14.0),
-          child: Text("Custom RadioButtonGroup",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 20.0
-            ),
-          ),
-        ),
-
-        RadioButtonGroup(
-          orientation: GroupedButtonsOrientation.HORIZONTAL,
-          margin: const EdgeInsets.only(left: 12.0),
-          onSelected: (String selected) => setState((){
-            _picked = selected;
-          }),
-          labels: <String>[
-            "One",
-            "Two",
-          ],
-          picked: _picked,
-          itemBuilder: (Radio rb, Text txt, int i){
-            return Column(
-              children: <Widget>[
-                Icon(Icons.public),
-                rb,
-                txt,
-              ],
-            );
-          },
-        ),
-
-      ]
-    );
+      RadioButtonGroup(
+        orientation: GroupedButtonsOrientation.GRID,
+        margin: const EdgeInsets.only(left: 12.0),
+        onSelected: (String selected) => setState(() {
+          _picked = selected;
+        }),
+        labels: <String>[
+          "Waffles or Crepes  ",
+          "Pesto Pasta  ",
+          "Rice  ",
+          "Spaghetti  ",
+          "Vegetable Lasagna  ",
+          "Beef & Broccoli  ",
+          "Meatball Subs  ",
+          "Salmon  ",
+          "Tomato-Bacon Pasta  ",
+          "Tortellini  ",
+          "Eggplant Parmesan  ",
+          "White Chicken Chili  ",
+          "Jambalaya  ",
+          "Tortellini Soup  ",
+          "Tostadas  ",
+          "Kabobs  ",
+        ],
+        picked: _picked,
+        itemBuilder: (Radio rb, Text txt, int i) {
+          return Column(
+            children: <Widget>[
+              Icon(Icons.fastfood),
+              rb,
+              txt,
+            ],
+          );
+        },
+      ),
+    ]);
   }
-
 }
